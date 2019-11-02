@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">MediScan</string>
+    <string name="btn_add_form">Add form type</string>
+    <string name="btn_scan">Scan</string>
+    <string name="btn_add_field">Add Field</string>
+    <string name="btn_fields_added">OK</string>
+</resources>
