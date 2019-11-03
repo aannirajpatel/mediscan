@@ -1,0 +1,64 @@
+//ImageView imageView = (ImageView)findViewById(R.id.imageView);
+
+        btnCamera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                /*Log.i("INFO","hi2");
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                Log.i("INFO","hi");
+                startActivityForResult(intent, 0);*/
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                File file = new File(Environment.getExternalStoragePublicDirectory(),
+                        "MyPhoto.jpg");
+                outPutfileUri = Uri.fromFile(file);
+                Log.i("INFO", "Yoohooo");
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, outPutfileUri);
+                startActivityForResult(intent, TAKE_PIC);
+            }
+
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == TAKE_PIC && resultCode == RESULT_OK) {
+
+            String uri = outPutfileUri.toString();
+            Log.e("uri-:", uri);
+            Toast.makeText(this, outPutfileUri.toString(), Toast.LENGTH_LONG).show();
+
+            //Bitmap myBitmap = BitmapFactory.decodeFile(uri);
+            // mImageView.setImageURI(Uri.parse(uri));   OR drawable make image strechable so try bleow also
+
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), outPutfileUri);
+                Intent intent = new Intent(this, SelectFields.class);
+                intent.putExtra("BitmapImage", bitmap);
+                startActivity(intent);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        /*super.onActivityResult(requestCode, resultCode, data);
+        bitmap = (Bitmap)data.getExtras().get("data");
+        Intent intent = new Intent(this, SelectFields.class);
+        intent.putExtra("BitmapImage", bitmap);
+        startActivity(intent);*/
+
+/*
+
+        Bundle b = new Bundle();
+        b.putByteArray("image",byteArray);
+*/
+            // your fragment code
+//        fragment.setArguments(b);
+/*        ImageView iv = findViewById(R.id.imageView);
+        iv.setImageBitmap(bitmap);*/
+        /*Intent intent = new Intent(this, SelectFields.class);
+        intent.putExtra("capturedPic",b);
+        Log.i("INFO","rfc");
+        startActivity(intent);
+*/
+            //imageView.setImageBitmap(bitmap);
+        }
+    }
+}
