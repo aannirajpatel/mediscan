@@ -38,7 +38,7 @@ public class SelectFields extends AppCompatActivity {
     }
 
     public void addField(View view) {
-        DragRectView addFieldRectView = (DragRectView) findViewById(R.id.add_field_rect_view);
+        final DragRectView addFieldRectView = (DragRectView) findViewById(R.id.add_field_rect_view);
         if(addFieldRectView.getIsLegitRectangle()){
             addFieldRectView.resetRect();
             AlertDialog.Builder builder = new AlertDialog.Builder(SelectFields.this);
@@ -59,6 +59,13 @@ public class SelectFields extends AppCompatActivity {
                     Log.i("INFO","Field "+ fieldName + " added");
                     TextView tv = findViewById(R.id.statusMessage);
                     tv.setText("Status: Field "+fieldName+" added");
+                    ImageView iv = findViewById(R.id.formImage);
+                    int[] ivCoords = new int[2], rectCoords = new int[4];
+                    ivCoords[0] = (int)iv.getX(); ivCoords[1] = (int)iv.getY();
+                    addFieldRectView.getNormalizedCoords(rectCoords);
+                    rectCoords[0]-=ivCoords[0]; rectCoords[1]-=ivCoords[1];
+                    rectCoords[2]-=ivCoords[0]; rectCoords[3]-=ivCoords[1];
+
                     //Find coordinates of rect wrt image topleft
                     //Add fieldName to a list
                 }

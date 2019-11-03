@@ -9,6 +9,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
 
 public class DragRectView extends View {
 
@@ -129,5 +130,23 @@ public class DragRectView extends View {
         mEndX = 0;
         mStartY = 0;
         mEndY = 0;
+    }
+
+    public void getNormalizedCoords(int[] coords){
+        if(mStartX>mEndX){
+            int temp = mEndX;
+            mEndX = mStartX;
+            mStartX = temp;
+        }
+        if(mStartY>mEndY){
+            int temp = mEndY;
+            mEndY = mStartY;
+            mStartY = temp;
+        }
+        coords[0] = mStartX;
+        coords[1] = mStartY;
+        coords[2] = mEndX;
+        coords[3] = mEndY;
+        return;
     }
 }
