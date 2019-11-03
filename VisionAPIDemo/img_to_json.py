@@ -9,7 +9,7 @@ import base64
 
 #rectangle_list = [(x_1,y_1,x_2,y_2, column_label)]
 #current assignment is an example sample for vital_signs.png
-json_input = 'JSON::{"img":"iVB...U5ErkJggg\u003d\u003d\n","fields":["kk"],"coords":[[206,368,728,685]]}'
+json_input = input()#'JSON::{"img":"iVB...U5ErkJggg\u003d\u003d\n","fields":["kk"],"coords":[[206,368,728,685]]}'
 img_base64 = json_input['img']
 fields = json_input['fields']
 coords = json_input['coords']
