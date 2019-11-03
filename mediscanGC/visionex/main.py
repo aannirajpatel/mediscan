@@ -1,44 +1,28 @@
 import io
-import requests
-from flask import Flask
-from google.cloud import vision, storage
+import base64
+from flask import Flask, request, json
+from google.cloud import vision#, storage
 
 app = Flask(__name__)
 
-@app.route('/')
+@app.route('/', methods=['POST'])
 def main():
-	storage_client = storage.Client()
+	fields = request.form['Fields']
+	rectCoords = request.form['Coords']
+	img = base64.b64decode(request.form['Image'])
 	vision_client = vision.ImageAnnotatorClient()
-	
-	files = storage_client.list_blobs("medical_forms")
-	key = "AIzaSyD_jpxC4BEv1v7uUG3_0EwG8qzlM6TxDXw"
 
-	for file_name in files:
-		print("FILEPATH")
-		print(file_name.public_url)
-		js = {
-  				"requests":[
-    							{
-      								"image":{
-        								"source":{
-          										"imageUri": file_name.public_url
-        										}
-      										},
-     								 "features":[
-        									{ "type":"TEXT_DETECTION",
-          										"maxResults":10
-        									}
-      											]
-    							}
-  							]
-				}
-		r = requests.post(url = "https://vision.googleapis.com/v1/images:annotate?key=AIzaSyD_jpxC4BEv1v7uUG3_0EwG8qzlM6TxDXw", json = js)
-		json = r.json()
-		#print(json['responses'][0]['textAnnotations'])
-		for x in json['responses'][0]['textAnnotations']:
-			print(x['description'])
+	with io.open(img, 'rb') as image_file:
+		content = image_file.read()
+		image = vision.types.Image(content=content)
+
+	response = vision_client.label_detection(image=image)
+	labels = response.label_annotations
+
+	for label in labels:
+		print(label.description)
 	
-	return "hi"
+	return json.dumps({"result": "here"})
 
 if __name__ == '__main__':
     app.run(debug=True)
