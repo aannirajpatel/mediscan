@@ -8,10 +8,12 @@ import base64
 
 #rectangle_list = [(x_1,y_1,x_2,y_2, column_label)]
 #current assignment is an example sample for vital_signs.png
-json_input = "json input"
-img_base64 = json_input['img']
-coordinates = json_input['fields']
-category_names = json_input['coords']
+print(request.get_json(silent=True))
+json_input = request.get_json(silent=True)
+
+img_base64 = json_input['Image']
+coordinates = json_input['Names']
+category_names = json_input['Coords']
 data = base64.b64decode(img_base64)
 #rectangle_list = [(264, 142, 393, 192, 'blood pressure'), (247, 198, 408, 252, 'pulse'), (239, 261, 405, 312, 'spo2'), (250, 319, 398, 380, 'weight'), (237, 381, 406, 435, 'temp'), (231, 432, 302, 466, 'pain'), (183, 465, 283, 510, 'pain')]
 #rectangle_list = [(269, 2065, 465, 2533, 'date'), (965, 2059, 1201, 2557, 'temp')]
@@ -28,13 +30,9 @@ print(rectangle_list)
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = r'GoogleCloudDemo-fe3700bf4625.json'
 client = vision.ImageAnnotatorClient()
 
-image_path = r'C:\Users\justi\Code\GoogleCloudDemo\mediscan\VisionAPIDemo\photos\vital_chart.jpg'
-
 def image_to_dict(rectangle_list):
     columns = {}
-    with io.open(data, 'rb') as image_file:
-        content = image_file.read()
-        image = vision.types.Image(content=content)
+    image = vision.types.Image(content=data)
     response = client.document_text_detection(image=image) 
     texts = response.text_annotations
     stringTemp = ''
