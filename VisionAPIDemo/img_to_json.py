@@ -4,6 +4,7 @@ from google.cloud.vision import types
 import json
 import datetime
 import base64
+import sys
 
 #edit .vscode settings.json possibly for python path in cloud
 
@@ -19,6 +20,15 @@ os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = r'GoogleCloudDemo-fe3700bf4625.js
 client = vision.ImageAnnotatorClient()
 
 def image_to_dict(rect_coords, rect_labels):
+    json_input = input()#'JSON::{"img":"iVB...U5ErkJggg\u003d\u003d\n","fields":["kk"],"coords":[[206,368,728,685]]}'
+    img_base64 = json_input['img']
+    fields = json_input['fields']
+    coords = json_input['coords']
+    data = base64.b64decode(img_base64)
+
+    os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = r'GoogleCloudDemo-fe3700bf4625.json'
+    client = vision.ImageAnnotatorClient()
+
     final_dict = {}
     image = vision.types.Image(content=data)
     response = client.document_text_detection(image=image) 
