@@ -12,10 +12,9 @@ from google.protobuf.json_format import MessageToDict
 rectangle_list = [(264, 142, 393, 192, 'blood pressure'), (247, 198, 408, 252, 'pulse'), (239, 261, 405, 312, 'spo2'), (250, 319, 398, 380, 'weight'), (237, 381, 406, 435, 'temp'), (231, 432, 302, 466, 'pain'), (183, 465, 283, 510, 'pain')]
 
 #change later when given specific image input
-input_folder_path = r'C:\Users\justi\Code\GoogleCloudDemo\VisionAPIDemo\photos'
+input_folder_path = "/Users/jowu/Desktop/mediscan/VisionAPIDemo/photos"
 # end of inputs
 
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = r'GoogleCloudDemo-fe3700bf4625.json'
 client = vision.ImageAnnotatorClient()
 
 #FILE_NAME = 'vital_signs.png'
