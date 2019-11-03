@@ -133,6 +133,7 @@ public class DragRectView extends View {
     }
 
     public void getNormalizedCoords(int[] coords){
+        Log.i("INFO","PRINT NORM: "+String.format("%d,%d,%d,%d",mStartX,mStartY,mEndX,mEndY)+String.format(",%d",Math.abs(mStartX-mEndX) * Math.abs(mStartY-mEndY)));
         if(mStartX>mEndX){
             int temp = mEndX;
             mEndX = mStartX;
